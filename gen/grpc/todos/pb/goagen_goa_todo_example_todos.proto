@@ -1,0 +1,16 @@
+// Code generated with goa v3.13.2, DO NOT EDIT.
+//
+// todos protocol buffer definition
+//
+// Command:
+// $ goa gen github.com/akm/goa_todo_example/design
+
+syntax = "proto3";
+
+package todos;
+
+option go_package = "/todospb";
+
+// Service is the todos service interface.
+service Todos {
+}

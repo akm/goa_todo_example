@@ -1,0 +1,434 @@
+swagger: "2.0"
+info:
+    title: TODO API
+    description: TODO API
+    version: "0.1"
+host: localhost:8000
+basePath: /
+consumes:
+    - application/json
+    - application/xml
+    - application/gob
+produces:
+    - application/json
+    - application/xml
+    - application/gob
+paths:
+    /api/todos:
+        get:
+            tags:
+                - todos
+            summary: list todos
+            operationId: todos#list
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/TodosListResponseBody'
+            schemes:
+                - http
+        post:
+            tags:
+                - todos
+            summary: create todos
+            operationId: todos#create
+            parameters:
+                - name: CreateRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/TodosCreateRequestBody'
+                    required:
+                        - title
+                        - State
+            responses:
+                "201":
+                    description: Created response.
+                    schema:
+                        $ref: '#/definitions/TodosCreateResponseBody'
+            schemes:
+                - http
+    /api/todos/{id}:
+        get:
+            tags:
+                - todos
+            summary: show todos
+            operationId: todos#show
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  type: integer
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/TodosShowResponseBody'
+            schemes:
+                - http
+        put:
+            tags:
+                - todos
+            summary: update todos
+            operationId: todos#update
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  type: integer
+                - name: UpdateRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/TodosUpdateRequestBody'
+                    required:
+                        - body
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/TodosUpdateResponseBody'
+            schemes:
+                - http
+        delete:
+            tags:
+                - todos
+            summary: delete todos
+            operationId: todos#delete
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  type: integer
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/TodosDeleteResponseBody'
+            schemes:
+                - http
+definitions:
+    TodoListItemResponseBody:
+        title: 'Mediatype identifier: application/vnd.todo-list-item; view=default'
+        type: object
+        properties:
+            State:
+                type: string
+                description: State
+                example: closed
+                enum:
+                    - open
+                    - closed
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 13511584583745042765
+                format: int64
+            title:
+                type: string
+                description: Title
+                example: Ea inventore ut.
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+        description: Todo-List-ItemResponseBody result type (default view)
+        example:
+            State: open
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 17653880161119713377
+            title: Et laudantium aut culpa vel magnam vitae.
+            updated_at: 2006-01-02T15:04:05Z07:00
+        required:
+            - id
+            - title
+            - State
+            - created_at
+            - updated_at
+    TodoListItemResponseBodyCollection:
+        title: 'Mediatype identifier: application/vnd.todo-list-item; type=collection; view=default'
+        type: array
+        items:
+            $ref: '#/definitions/TodoListItemResponseBody'
+        description: Todo-List-ItemCollectionResponseBody is the result type for an array of Todo-List-ItemResponseBody (default view)
+        example:
+            - State: open
+              created_at: 2006-01-02T15:04:05Z07:00
+              id: 5578888385157773368
+              title: Iste voluptatem totam libero nam eaque voluptatem.
+              updated_at: 2006-01-02T15:04:05Z07:00
+            - State: open
+              created_at: 2006-01-02T15:04:05Z07:00
+              id: 5578888385157773368
+              title: Iste voluptatem totam libero nam eaque voluptatem.
+              updated_at: 2006-01-02T15:04:05Z07:00
+    TodoUpdatePayloadRequestBody:
+        title: TodoUpdatePayloadRequestBody
+        type: object
+        properties:
+            State:
+                type: string
+                description: State
+                example: closed
+                enum:
+                    - open
+                    - closed
+            title:
+                type: string
+                description: Title
+                example: Iusto animi laborum.
+        example:
+            State: closed
+            title: Eius quia eveniet.
+        required:
+            - title
+            - State
+    TodosCreateRequestBody:
+        title: TodosCreateRequestBody
+        type: object
+        properties:
+            State:
+                type: string
+                description: State
+                example: closed
+                enum:
+                    - open
+                    - closed
+            title:
+                type: string
+                description: Title
+                example: Sunt enim.
+        example:
+            State: closed
+            title: Dignissimos iure quam veritatis qui consectetur voluptatem.
+        required:
+            - title
+            - State
+    TodosCreateResponseBody:
+        title: 'Mediatype identifier: application/vnd.todo; view=default'
+        type: object
+        properties:
+            State:
+                type: string
+                description: State
+                example: closed
+                enum:
+                    - open
+                    - closed
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 6260271188334003618
+                format: int64
+            title:
+                type: string
+                description: Title
+                example: Libero molestiae laborum corrupti.
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+        description: CreateResponseBody result type (default view)
+        example:
+            State: open
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 10145663411078434734
+            title: Sapiente eaque similique beatae.
+            updated_at: 2006-01-02T15:04:05Z07:00
+        required:
+            - id
+            - title
+            - State
+            - created_at
+            - updated_at
+    TodosDeleteResponseBody:
+        title: 'Mediatype identifier: application/vnd.todo; view=default'
+        type: object
+        properties:
+            State:
+                type: string
+                description: State
+                example: open
+                enum:
+                    - open
+                    - closed
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 10202224922958857668
+                format: int64
+            title:
+                type: string
+                description: Title
+                example: Itaque enim nihil omnis delectus voluptate.
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+        description: DeleteResponseBody result type (default view)
+        example:
+            State: open
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 3417363108046843225
+            title: Nisi quam ut occaecati.
+            updated_at: 2006-01-02T15:04:05Z07:00
+        required:
+            - id
+            - title
+            - State
+            - created_at
+            - updated_at
+    TodosListResponseBody:
+        title: 'Mediatype identifier: application/vnd.todo-list; view=default'
+        type: object
+        properties:
+            items:
+                $ref: '#/definitions/TodoListItemResponseBodyCollection'
+            offset:
+                type: integer
+                description: Offset
+                example: 0
+                format: int64
+            total:
+                type: integer
+                description: Total number of items
+                example: 160
+                format: int64
+        description: ListResponseBody result type (default view)
+        example:
+            items:
+                - State: open
+                  created_at: 2006-01-02T15:04:05Z07:00
+                  id: 5578888385157773368
+                  title: Iste voluptatem totam libero nam eaque voluptatem.
+                  updated_at: 2006-01-02T15:04:05Z07:00
+                - State: open
+                  created_at: 2006-01-02T15:04:05Z07:00
+                  id: 5578888385157773368
+                  title: Iste voluptatem totam libero nam eaque voluptatem.
+                  updated_at: 2006-01-02T15:04:05Z07:00
+            offset: 0
+            total: 160
+        required:
+            - items
+            - total
+            - offset
+    TodosShowResponseBody:
+        title: 'Mediatype identifier: application/vnd.todo; view=default'
+        type: object
+        properties:
+            State:
+                type: string
+                description: State
+                example: open
+                enum:
+                    - open
+                    - closed
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 15823518705407672201
+                format: int64
+            title:
+                type: string
+                description: Title
+                example: Deserunt earum.
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+        description: ShowResponseBody result type (default view)
+        example:
+            State: open
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 8798631653945139050
+            title: A cum vero aut perspiciatis.
+            updated_at: 2006-01-02T15:04:05Z07:00
+        required:
+            - id
+            - title
+            - State
+            - created_at
+            - updated_at
+    TodosUpdateRequestBody:
+        title: TodosUpdateRequestBody
+        type: object
+        properties:
+            body:
+                $ref: '#/definitions/TodoUpdatePayloadRequestBody'
+        example:
+            body:
+                State: closed
+                title: Accusamus tempora dolores facere nulla.
+        required:
+            - body
+    TodosUpdateResponseBody:
+        title: 'Mediatype identifier: application/vnd.todo; view=default'
+        type: object
+        properties:
+            State:
+                type: string
+                description: State
+                example: open
+                enum:
+                    - open
+                    - closed
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 17141604616198814061
+                format: int64
+            title:
+                type: string
+                description: Title
+                example: Quia dolores.
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+        description: UpdateResponseBody result type (default view)
+        example:
+            State: open
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 4854010437887977816
+            title: Minus quibusdam sint non consequatur et exercitationem.
+            updated_at: 2006-01-02T15:04:05Z07:00
+        required:
+            - id
+            - title
+            - State
+            - created_at
+            - updated_at
