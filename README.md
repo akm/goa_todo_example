@@ -158,6 +158,17 @@ $ go run ./cmd/apisvr-cli -url grpc://localhost:8080 todos update --message '{"i
 }
 ```
 
+```
+$ go run ./cmd/apisvr-cli -url grpc://localhost:8080 todos create --message '{"title":"pay","state":"open"}'
+{
+    "ID": 3,
+    "Title": "pay",
+    "State": "open",
+    "CreatedAt": "2023-10-15T22:30:12+09:00",
+    "UpdatedAt": "2023-10-15T22:30:12+09:00"
+}
+```
+
 Run `go run ./cmd/apisvr-cli --help` for more detail.
 
 
@@ -166,20 +177,20 @@ Run `go run ./cmd/apisvr-cli --help` for more detail.
 ### list
 
 ```
-$ npx ts-node src/todos/list.ts
+ npx ts-node src/todos/list.ts
 {
   id: 2,
   title: 'go to shops',
-  state: 'open',
-  createdAt: '2023-10-15T17:30:32+09:00',
-  updatedAt: '2023-10-15T17:30:32+09:00'
+  state: 'closed',
+  createdAt: '2023-10-15T22:14:45+09:00',
+  updatedAt: '2023-10-15T22:20:03+09:00'
 }
 {
   id: 3,
   title: 'pay',
   state: 'open',
-  createdAt: '2023-10-15T17:44:07+09:00',
-  updatedAt: '2023-10-15T17:44:07+09:00'
+  createdAt: '2023-10-15T22:30:12+09:00',
+  updatedAt: '2023-10-15T22:30:12+09:00'
 }
 ```
 
@@ -190,9 +201,9 @@ $ npx ts-node src/todos/show.ts 2
 {
   id: 2,
   title: 'go to shops',
-  state: 'open',
-  createdAt: '2023-10-15T17:30:32+09:00',
-  updatedAt: '2023-10-15T17:30:32+09:00'
+  state: 'closed',
+  createdAt: '2023-10-15T22:14:45+09:00',
+  updatedAt: '2023-10-15T22:20:03+09:00'
 }
 ```
 
@@ -223,8 +234,8 @@ $ npx ts-node src/todos/create 'write to the notebook' open
   id: 4,
   title: 'write to the notebook',
   state: 'open',
-  createdAt: '2023-10-15T20:20:44+09:00',
-  updatedAt: '2023-10-15T20:20:44+09:00'
+  createdAt: '2023-10-15T22:31:45+09:00',
+  updatedAt: '2023-10-15T22:31:45+09:00'
 }
 ```
 
@@ -237,39 +248,39 @@ $ npx ts-node src/todos/update 4 'write to the notebook' closed
   id: 4,
   title: 'write to the notebook',
   state: 'closed',
-  createdAt: '2023-10-15T20:20:44+09:00',
-  updatedAt: '2023-10-15T20:21:18+09:00'
+  createdAt: '2023-10-15T22:31:45+09:00',
+  updatedAt: '2023-10-15T22:32:06+09:00'
 }
 ```
 
 ### delete
 
 ```
-$ npx ts-node src/todos/delete.ts 3
+ npx ts-node src/todos/delete.ts 3
 {
   id: 3,
   title: 'pay',
   state: 'open',
-  createdAt: '2023-10-15T17:44:07+09:00',
-  updatedAt: '2023-10-15T17:44:07+09:00'
+  createdAt: '2023-10-15T22:30:12+09:00',
+  updatedAt: '2023-10-15T22:30:12+09:00'
 }
 ```
 
 
 ```
-$ npx ts-node src/todos/list.ts
+ npx ts-node src/todos/list
 {
   id: 2,
   title: 'go to shops',
-  state: 'open',
-  createdAt: '2023-10-15T17:30:32+09:00',
-  updatedAt: '2023-10-15T17:30:32+09:00'
+  state: 'closed',
+  createdAt: '2023-10-15T22:14:45+09:00',
+  updatedAt: '2023-10-15T22:20:03+09:00'
 }
 {
   id: 4,
   title: 'write to the notebook',
   state: 'closed',
-  createdAt: '2023-10-15T20:20:44+09:00',
-  updatedAt: '2023-10-15T20:21:18+09:00'
+  createdAt: '2023-10-15T22:31:45+09:00',
+  updatedAt: '2023-10-15T22:32:06+09:00'
 }
 ```
