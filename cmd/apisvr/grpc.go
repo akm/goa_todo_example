@@ -36,7 +36,7 @@ func handleGRPCServer(ctx context.Context, u *url.URL, todosEndpoints *todos.End
 		todosServer *todossvr.Server
 	)
 	{
-		todosServer = todossvr.New(nil)
+		todosServer = todossvr.New(todosEndpoints, nil)
 	}
 
 	// Initialize gRPC server with the middleware.
