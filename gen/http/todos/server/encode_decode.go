@@ -13,7 +13,6 @@ import (
 	"net/http"
 	"strconv"
 
-	todos "github.com/akm/goa_todo_example/gen/todos"
 	todosviews "github.com/akm/goa_todo_example/gen/todos/views"
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
@@ -155,7 +154,7 @@ func DecodeUpdateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 		if err != nil {
 			return nil, err
 		}
-		payload := NewUpdatePayload(&body, id)
+		payload := NewUpdateTodoUpdatePayload(&body, id)
 
 		return payload, nil
 	}
@@ -210,18 +209,6 @@ func marshalTodosviewsTodoListItemViewToTodoListItemResponseBody(v *todosviews.T
 		State:     *v.State,
 		CreatedAt: *v.CreatedAt,
 		UpdatedAt: *v.UpdatedAt,
-	}
-
-	return res
-}
-
-// unmarshalTodoUpdatePayloadRequestBodyToTodosTodoUpdatePayload builds a value
-// of type *todos.TodoUpdatePayload from a value of type
-// *TodoUpdatePayloadRequestBody.
-func unmarshalTodoUpdatePayloadRequestBodyToTodosTodoUpdatePayload(v *TodoUpdatePayloadRequestBody) *todos.TodoUpdatePayload {
-	res := &todos.TodoUpdatePayload{
-		Title: *v.Title,
-		State: *v.State,
 	}
 
 	return res

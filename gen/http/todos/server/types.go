@@ -25,7 +25,10 @@ type CreateRequestBody struct {
 // UpdateRequestBody is the type of the "todos" service "update" endpoint HTTP
 // request body.
 type UpdateRequestBody struct {
-	Body *TodoUpdatePayloadRequestBody `form:"body,omitempty" json:"body,omitempty" xml:"body,omitempty"`
+	// Title
+	Title *string `form:"title,omitempty" json:"title,omitempty" xml:"title,omitempty"`
+	// State
+	State *string `form:"State,omitempty" json:"State,omitempty" xml:"State,omitempty"`
 }
 
 // ListResponseBody is the type of the "todos" service "list" endpoint HTTP
@@ -117,14 +120,6 @@ type TodoListItemResponseBody struct {
 	UpdatedAt string `form:"updated_at" json:"updated_at" xml:"updated_at"`
 }
 
-// TodoUpdatePayloadRequestBody is used to define fields on request body types.
-type TodoUpdatePayloadRequestBody struct {
-	// Title
-	Title *string `form:"title,omitempty" json:"title,omitempty" xml:"title,omitempty"`
-	// State
-	State *string `form:"State,omitempty" json:"State,omitempty" xml:"State,omitempty"`
-}
-
 // NewListResponseBody builds the HTTP response body from the result of the
 // "list" endpoint of the "todos" service.
 func NewListResponseBody(res *todosviews.TodoListView) *ListResponseBody {
@@ -213,10 +208,12 @@ func NewCreateTodoCreatePayload(body *CreateRequestBody) *todos.TodoCreatePayloa
 	return v
 }
 
-// NewUpdatePayload builds a todos service update endpoint payload.
-func NewUpdatePayload(body *UpdateRequestBody, id uint64) *todos.UpdatePayload {
-	v := &todos.UpdatePayload{}
-	v.Body = unmarshalTodoUpdatePayloadRequestBodyToTodosTodoUpdatePayload(body.Body)
+// NewUpdateTodoUpdatePayload builds a todos service update endpoint payload.
+func NewUpdateTodoUpdatePayload(body *UpdateRequestBody, id uint64) *todos.TodoUpdatePayload {
+	v := &todos.TodoUpdatePayload{
+		Title: *body.Title,
+		State: *body.State,
+	}
 	v.ID = id
 
 	return v
@@ -248,20 +245,6 @@ func ValidateCreateRequestBody(body *CreateRequestBody) (err error) {
 
 // ValidateUpdateRequestBody runs the validations defined on UpdateRequestBody
 func ValidateUpdateRequestBody(body *UpdateRequestBody) (err error) {
-	if body.Body == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("body", "body"))
-	}
-	if body.Body != nil {
-		if err2 := ValidateTodoUpdatePayloadRequestBody(body.Body); err2 != nil {
-			err = goa.MergeErrors(err, err2)
-		}
-	}
-	return
-}
-
-// ValidateTodoUpdatePayloadRequestBody runs the validations defined on
-// TodoUpdatePayloadRequestBody
-func ValidateTodoUpdatePayloadRequestBody(body *TodoUpdatePayloadRequestBody) (err error) {
 	if body.Title == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("title", "body"))
 	}

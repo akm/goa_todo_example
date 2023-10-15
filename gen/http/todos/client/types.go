@@ -25,7 +25,10 @@ type CreateRequestBody struct {
 // UpdateRequestBody is the type of the "todos" service "update" endpoint HTTP
 // request body.
 type UpdateRequestBody struct {
-	Body *TodoUpdatePayloadRequestBody `form:"body" json:"body" xml:"body"`
+	// Title
+	Title string `form:"title" json:"title" xml:"title"`
+	// State
+	State string `form:"State" json:"State" xml:"State"`
 }
 
 // ListResponseBody is the type of the "todos" service "list" endpoint HTTP
@@ -117,14 +120,6 @@ type TodoListItemResponseBody struct {
 	UpdatedAt *string `form:"updated_at,omitempty" json:"updated_at,omitempty" xml:"updated_at,omitempty"`
 }
 
-// TodoUpdatePayloadRequestBody is used to define fields on request body types.
-type TodoUpdatePayloadRequestBody struct {
-	// Title
-	Title string `form:"title" json:"title" xml:"title"`
-	// State
-	State string `form:"State" json:"State" xml:"State"`
-}
-
 // NewCreateRequestBody builds the HTTP request body from the payload of the
 // "create" endpoint of the "todos" service.
 func NewCreateRequestBody(p *todos.TodoCreatePayload) *CreateRequestBody {
@@ -137,10 +132,10 @@ func NewCreateRequestBody(p *todos.TodoCreatePayload) *CreateRequestBody {
 
 // NewUpdateRequestBody builds the HTTP request body from the payload of the
 // "update" endpoint of the "todos" service.
-func NewUpdateRequestBody(p *todos.UpdatePayload) *UpdateRequestBody {
-	body := &UpdateRequestBody{}
-	if p.Body != nil {
-		body.Body = marshalTodosTodoUpdatePayloadToTodoUpdatePayloadRequestBody(p.Body)
+func NewUpdateRequestBody(p *todos.TodoUpdatePayload) *UpdateRequestBody {
+	body := &UpdateRequestBody{
+		Title: p.Title,
+		State: p.State,
 	}
 	return body
 }
@@ -257,15 +252,6 @@ func ValidateTodoListItemResponseBody(body *TodoListItemResponseBody) (err error
 	}
 	if body.UpdatedAt != nil {
 		err = goa.MergeErrors(err, goa.ValidateFormat("body.updated_at", *body.UpdatedAt, goa.FormatDateTime))
-	}
-	return
-}
-
-// ValidateTodoUpdatePayloadRequestBody runs the validations defined on
-// TodoUpdatePayloadRequestBody
-func ValidateTodoUpdatePayloadRequestBody(body *TodoUpdatePayloadRequestBody) (err error) {
-	if !(body.State == "open" || body.State == "closed") {
-		err = goa.MergeErrors(err, goa.InvalidEnumValueError("body.State", body.State, []any{"open", "closed"}))
 	}
 	return
 }

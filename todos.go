@@ -95,10 +95,10 @@ func (s *todossrvc) Create(ctx context.Context, p *todos.TodoCreatePayload) (res
 }
 
 // Update implements update.
-func (s *todossrvc) Update(ctx context.Context, p *todos.UpdatePayload) (res *todos.Todo, err error) {
+func (s *todossrvc) Update(ctx context.Context, p *todos.TodoUpdatePayload) (res *todos.Todo, err error) {
 	s.logger.Print("todos.update")
 
-	st, err := todo.ParseState(p.Body.State)
+	st, err := todo.ParseState(p.State)
 	if err != nil {
 		// return nil, todos.MakeInvalidPayload(errors.New("invalid state"))
 		return nil, err
@@ -115,7 +115,7 @@ func (s *todossrvc) Update(ctx context.Context, p *todos.UpdatePayload) (res *to
 		return nil, errors.New("not found")
 	}
 
-	m.Title = p.Body.Title
+	m.Title = p.Title
 	m.State = st
 	m.UpdatedAt = time.Now()
 

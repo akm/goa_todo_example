@@ -58,22 +58,21 @@ func BuildCreatePayload(todosCreateMessage string) (*todos.TodoCreatePayload, er
 
 // BuildUpdatePayload builds the payload for the todos update endpoint from CLI
 // flags.
-func BuildUpdatePayload(todosUpdateMessage string) (*todos.UpdatePayload, error) {
+func BuildUpdatePayload(todosUpdateMessage string) (*todos.TodoUpdatePayload, error) {
 	var err error
 	var message todospb.UpdateRequest
 	{
 		if todosUpdateMessage != "" {
 			err = json.Unmarshal([]byte(todosUpdateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"body\": {\n         \"State\": \"closed\",\n         \"title\": \"Voluptatem omnis ut sed dicta assumenda dignissimos.\"\n      },\n      \"id\": 12782481505029911788\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"State\": \"open\",\n      \"id\": 12782481505029911788,\n      \"title\": \"Vero aut perspiciatis nesciunt accusamus.\"\n   }'")
 			}
 		}
 	}
-	v := &todos.UpdatePayload{
-		ID: message.Id,
-	}
-	if message.Body != nil {
-		v.Body = protobufTodospbTodoUpdatePayloadToTodosTodoUpdatePayload(message.Body)
+	v := &todos.TodoUpdatePayload{
+		ID:    message.Id,
+		Title: message.Title,
+		State: message.State,
 	}
 
 	return v, nil
@@ -88,7 +87,7 @@ func BuildDeletePayload(todosDeleteMessage string) (*todos.DeletePayload, error)
 		if todosDeleteMessage != "" {
 			err = json.Unmarshal([]byte(todosDeleteMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 6260271188334003618\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 11495435370355398098\n   }'")
 			}
 		}
 	}

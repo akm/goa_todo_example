@@ -64,7 +64,7 @@ func (c *Client) Create(ctx context.Context, p *TodoCreatePayload) (res *Todo, e
 }
 
 // Update calls the "update" endpoint of the "todos" service.
-func (c *Client) Update(ctx context.Context, p *UpdatePayload) (res *Todo, err error) {
+func (c *Client) Update(ctx context.Context, p *TodoUpdatePayload) (res *Todo, err error) {
 	var ires any
 	ires, err = c.UpdateEndpoint(ctx, p)
 	if err != nil {

@@ -216,11 +216,10 @@ export namespace CreateResponse {
 export class UpdateRequest extends jspb.Message { 
     getId(): number;
     setId(value: number): UpdateRequest;
-
-    hasBody(): boolean;
-    clearBody(): void;
-    getBody(): TodoUpdatePayload | undefined;
-    setBody(value?: TodoUpdatePayload): UpdateRequest;
+    getTitle(): string;
+    setTitle(value: string): UpdateRequest;
+    getState(): string;
+    setState(value: string): UpdateRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): UpdateRequest.AsObject;
@@ -235,28 +234,6 @@ export class UpdateRequest extends jspb.Message {
 export namespace UpdateRequest {
     export type AsObject = {
         id: number,
-        body?: TodoUpdatePayload.AsObject,
-    }
-}
-
-export class TodoUpdatePayload extends jspb.Message { 
-    getTitle(): string;
-    setTitle(value: string): TodoUpdatePayload;
-    getState(): string;
-    setState(value: string): TodoUpdatePayload;
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): TodoUpdatePayload.AsObject;
-    static toObject(includeInstance: boolean, msg: TodoUpdatePayload): TodoUpdatePayload.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: TodoUpdatePayload, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): TodoUpdatePayload;
-    static deserializeBinaryFromReader(message: TodoUpdatePayload, reader: jspb.BinaryReader): TodoUpdatePayload;
-}
-
-export namespace TodoUpdatePayload {
-    export type AsObject = {
         title: string,
         state: string,
     }

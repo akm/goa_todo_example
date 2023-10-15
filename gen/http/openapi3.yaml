@@ -84,8 +84,8 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 14067667759533659596
-                  example: 13503808218220058289
+                    example: 13503808218220058289
+                  example: 14272627884539140567
             responses:
                 "200":
                     description: OK response.
@@ -112,8 +112,8 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 15804946130534978713
-                  example: 5606879020375075658
+                    example: 5606879020375075658
+                  example: 12815305522215498353
             responses:
                 "200":
                     description: OK response.
@@ -140,18 +140,17 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 12815305522215498353
-                  example: 9503503472711069725
+                    example: 9503503472711069725
+                  example: 14067667759533659596
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateRequestBody'
+                            $ref: '#/components/schemas/CreateRequestBody'
                         example:
-                            body:
-                                State: closed
-                                title: Accusamus tempora dolores facere nulla.
+                            State: closed
+                            title: Accusamus tempora dolores facere nulla.
             responses:
                 "200":
                     description: OK response.
@@ -180,10 +179,10 @@ components:
                 title:
                     type: string
                     description: Title
-                    example: Nulla libero nesciunt et inventore et voluptatibus.
+                    example: Et voluptatibus alias ipsa.
             example:
                 State: closed
-                title: Aut aliquid et.
+                title: Et omnis.
             required:
                 - title
                 - State
@@ -193,7 +192,7 @@ components:
                 State:
                     type: string
                     description: State
-                    example: open
+                    example: closed
                     enum:
                         - open
                         - closed
@@ -205,11 +204,11 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 3408566998653945846
+                    example: 6484352486573131805
                 title:
                     type: string
                     description: Title
-                    example: Sunt placeat.
+                    example: Et facilis voluptatem consequatur provident qui voluptatem.
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -218,8 +217,8 @@ components:
             example:
                 State: closed
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 6484352486573131805
-                title: Et facilis voluptatem consequatur provident qui voluptatem.
+                id: 16430660832877755159
+                title: Libero nesciunt.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
                 - id
@@ -274,7 +273,7 @@ components:
                 State:
                     type: string
                     description: State
-                    example: closed
+                    example: open
                     enum:
                         - open
                         - closed
@@ -286,21 +285,21 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 11091757315971090069
+                    example: 13294060456137234016
                 title:
                     type: string
                     description: Title
-                    example: Ad quo.
+                    example: Maxime dolor praesentium omnis voluptatem.
                 updated_at:
                     type: string
                     description: UpdatedAt
                     example: 2006-01-02T15:04:05Z07:00
                     format: date-time
             example:
-                State: open
+                State: closed
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 13294060456137234016
-                title: Maxime dolor praesentium omnis voluptatem.
+                id: 7477633780422226776
+                title: Saepe sunt.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
                 - id
@@ -323,16 +322,5 @@ components:
                   id: 8222634127514180254
                   title: Quia qui eum quisquam praesentium harum.
                   updated_at: 2006-01-02T15:04:05Z07:00
-        UpdateRequestBody:
-            type: object
-            properties:
-                body:
-                    $ref: '#/components/schemas/CreateRequestBody'
-            example:
-                body:
-                    State: closed
-                    title: Accusamus tempora dolores facere nulla.
-            required:
-                - body
 tags:
     - name: todos

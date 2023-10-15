@@ -22,7 +22,7 @@ type Service interface {
 	// Create implements create.
 	Create(context.Context, *TodoCreatePayload) (res *Todo, err error)
 	// Update implements update.
-	Update(context.Context, *UpdatePayload) (res *Todo, err error)
+	Update(context.Context, *TodoUpdatePayload) (res *Todo, err error)
 	// Delete implements delete.
 	Delete(context.Context, *DeletePayload) (res *Todo, err error)
 }
@@ -96,18 +96,14 @@ type TodoListItem struct {
 
 type TodoListItemCollection []*TodoListItem
 
+// TodoUpdatePayload is the payload type of the todos service update method.
 type TodoUpdatePayload struct {
+	// ID
+	ID uint64
 	// Title
 	Title string
 	// State
 	State string
-}
-
-// UpdatePayload is the payload type of the todos service update method.
-type UpdatePayload struct {
-	// ID
-	ID   uint64
-	Body *TodoUpdatePayload
 }
 
 // NewTodoList initializes result type TodoList from viewed result type
