@@ -33,7 +33,7 @@ var TodoRT = ResultType("application/vnd.todo", func() {
 })
 var TodoListItemRT = ResultType("application/vnd.todo-list-item", func() {
 	Attributes(func() {
-		Required(todoFields("RT", "show")...)
+		Required(todoFields("RT", "list")...)
 	})
 })
 var TodoListRT = ResultType("application/vnd.todo-list", func() {
