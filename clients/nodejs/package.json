@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/akm/goa_todo_example/issues"
   },
-  "homepage": "https://github.com/akm/goa_todo_example#readme"
+  "homepage": "https://github.com/akm/goa_todo_example#readme",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
 }
