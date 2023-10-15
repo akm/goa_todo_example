@@ -226,10 +226,8 @@ Update implements update.
 
 Example:
     %[1]s todos update --body '{
-      "body": {
-         "State": "closed",
-         "title": "Accusamus tempora dolores facere nulla."
-      }
+      "State": "closed",
+      "title": "Accusamus tempora dolores facere nulla."
    }' --id 10738902383531522955
 `, os.Args[0])
 }

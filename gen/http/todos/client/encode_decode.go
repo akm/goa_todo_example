@@ -223,9 +223,9 @@ func (c *Client) BuildUpdateRequest(ctx context.Context, v any) (*http.Request, 
 		id uint64
 	)
 	{
-		p, ok := v.(*todos.UpdatePayload)
+		p, ok := v.(*todos.TodoUpdatePayload)
 		if !ok {
-			return nil, goahttp.ErrInvalidType("todos", "update", "*todos.UpdatePayload", v)
+			return nil, goahttp.ErrInvalidType("todos", "update", "*todos.TodoUpdatePayload", v)
 		}
 		id = p.ID
 	}
@@ -245,9 +245,9 @@ func (c *Client) BuildUpdateRequest(ctx context.Context, v any) (*http.Request, 
 // server.
 func EncodeUpdateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
 	return func(req *http.Request, v any) error {
-		p, ok := v.(*todos.UpdatePayload)
+		p, ok := v.(*todos.TodoUpdatePayload)
 		if !ok {
-			return goahttp.ErrInvalidType("todos", "update", "*todos.UpdatePayload", v)
+			return goahttp.ErrInvalidType("todos", "update", "*todos.TodoUpdatePayload", v)
 		}
 		body := NewUpdateRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
@@ -376,30 +376,6 @@ func unmarshalTodoListItemResponseBodyToTodosviewsTodoListItemView(v *TodoListIt
 		State:     v.State,
 		CreatedAt: v.CreatedAt,
 		UpdatedAt: v.UpdatedAt,
-	}
-
-	return res
-}
-
-// marshalTodosTodoUpdatePayloadToTodoUpdatePayloadRequestBody builds a value
-// of type *TodoUpdatePayloadRequestBody from a value of type
-// *todos.TodoUpdatePayload.
-func marshalTodosTodoUpdatePayloadToTodoUpdatePayloadRequestBody(v *todos.TodoUpdatePayload) *TodoUpdatePayloadRequestBody {
-	res := &TodoUpdatePayloadRequestBody{
-		Title: v.Title,
-		State: v.State,
-	}
-
-	return res
-}
-
-// marshalTodoUpdatePayloadRequestBodyToTodosTodoUpdatePayload builds a value
-// of type *todos.TodoUpdatePayload from a value of type
-// *TodoUpdatePayloadRequestBody.
-func marshalTodoUpdatePayloadRequestBodyToTodosTodoUpdatePayload(v *TodoUpdatePayloadRequestBody) *todos.TodoUpdatePayload {
-	res := &todos.TodoUpdatePayload{
-		Title: v.Title,
-		State: v.State,
 	}
 
 	return res

@@ -84,12 +84,11 @@ func NewProtoCreateResponse(result *todosviews.TodoView) *todospb.CreateResponse
 
 // NewUpdatePayload builds the payload of the "update" endpoint of the "todos"
 // service from the gRPC request type.
-func NewUpdatePayload(message *todospb.UpdateRequest) *todos.UpdatePayload {
-	v := &todos.UpdatePayload{
-		ID: message.Id,
-	}
-	if message.Body != nil {
-		v.Body = protobufTodospbTodoUpdatePayloadToTodosTodoUpdatePayload(message.Body)
+func NewUpdatePayload(message *todospb.UpdateRequest) *todos.TodoUpdatePayload {
+	v := &todos.TodoUpdatePayload{
+		ID:    message.Id,
+		Title: message.Title,
+		State: message.State,
 	}
 	return v
 }
@@ -139,44 +138,8 @@ func ValidateCreateRequest(message *todospb.CreateRequest) (err error) {
 
 // ValidateUpdateRequest runs the validations defined on UpdateRequest.
 func ValidateUpdateRequest(message *todospb.UpdateRequest) (err error) {
-	if message.Body == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("body", "message"))
-	}
-	if message.Body != nil {
-		if err2 := ValidateTodoUpdatePayload(message.Body); err2 != nil {
-			err = goa.MergeErrors(err, err2)
-		}
+	if !(message.State == "open" || message.State == "closed") {
+		err = goa.MergeErrors(err, goa.InvalidEnumValueError("message.State", message.State, []any{"open", "closed"}))
 	}
 	return
-}
-
-// ValidateTodoUpdatePayload runs the validations defined on TodoUpdatePayload.
-func ValidateTodoUpdatePayload(body *todospb.TodoUpdatePayload) (err error) {
-	if !(body.State == "open" || body.State == "closed") {
-		err = goa.MergeErrors(err, goa.InvalidEnumValueError("body.State", body.State, []any{"open", "closed"}))
-	}
-	return
-}
-
-// protobufTodospbTodoUpdatePayloadToTodosTodoUpdatePayload builds a value of
-// type *todos.TodoUpdatePayload from a value of type
-// *todospb.TodoUpdatePayload.
-func protobufTodospbTodoUpdatePayloadToTodosTodoUpdatePayload(v *todospb.TodoUpdatePayload) *todos.TodoUpdatePayload {
-	res := &todos.TodoUpdatePayload{
-		Title: v.Title,
-		State: v.State,
-	}
-
-	return res
-}
-
-// svcTodosTodoUpdatePayloadToTodospbTodoUpdatePayload builds a value of type
-// *todospb.TodoUpdatePayload from a value of type *todos.TodoUpdatePayload.
-func svcTodosTodoUpdatePayloadToTodospbTodoUpdatePayload(v *todos.TodoUpdatePayload) *todospb.TodoUpdatePayload {
-	res := &todospb.TodoUpdatePayload{
-		Title: v.Title,
-		State: v.State,
-	}
-
-	return res
 }

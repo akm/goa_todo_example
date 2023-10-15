@@ -87,7 +87,7 @@ func NewCreateEndpoint(s Service) goa.Endpoint {
 // "update" of service "todos".
 func NewUpdateEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*UpdatePayload)
+		p := req.(*TodoUpdatePayload)
 		res, err := s.Update(ctx, p)
 		if err != nil {
 			return nil, err

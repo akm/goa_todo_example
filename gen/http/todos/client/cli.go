@@ -60,21 +60,16 @@ func BuildCreatePayload(todosCreateBody string) (*todos.TodoCreatePayload, error
 
 // BuildUpdatePayload builds the payload for the todos update endpoint from CLI
 // flags.
-func BuildUpdatePayload(todosUpdateBody string, todosUpdateID string) (*todos.UpdatePayload, error) {
+func BuildUpdatePayload(todosUpdateBody string, todosUpdateID string) (*todos.TodoUpdatePayload, error) {
 	var err error
 	var body UpdateRequestBody
 	{
 		err = json.Unmarshal([]byte(todosUpdateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"body\": {\n         \"State\": \"closed\",\n         \"title\": \"Accusamus tempora dolores facere nulla.\"\n      }\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"State\": \"closed\",\n      \"title\": \"Accusamus tempora dolores facere nulla.\"\n   }'")
 		}
-		if body.Body == nil {
-			err = goa.MergeErrors(err, goa.MissingFieldError("body", "body"))
-		}
-		if body.Body != nil {
-			if err2 := ValidateTodoUpdatePayloadRequestBody(body.Body); err2 != nil {
-				err = goa.MergeErrors(err, err2)
-			}
+		if !(body.State == "open" || body.State == "closed") {
+			err = goa.MergeErrors(err, goa.InvalidEnumValueError("body.State", body.State, []any{"open", "closed"}))
 		}
 		if err != nil {
 			return nil, err
@@ -87,9 +82,9 @@ func BuildUpdatePayload(todosUpdateBody string, todosUpdateID string) (*todos.Up
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
-	v := &todos.UpdatePayload{}
-	if body.Body != nil {
-		v.Body = marshalTodoUpdatePayloadRequestBodyToTodosTodoUpdatePayload(body.Body)
+	v := &todos.TodoUpdatePayload{
+		Title: body.Title,
+		State: body.State,
 	}
 	v.ID = id
 

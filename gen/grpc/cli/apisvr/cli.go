@@ -219,11 +219,9 @@ Update implements update.
 
 Example:
     %[1]s todos update --message '{
-      "body": {
-         "State": "closed",
-         "title": "Voluptatem omnis ut sed dicta assumenda dignissimos."
-      },
-      "id": 12782481505029911788
+      "State": "open",
+      "id": 12782481505029911788,
+      "title": "Vero aut perspiciatis nesciunt accusamus."
    }'
 `, os.Args[0])
 }
@@ -236,7 +234,7 @@ Delete implements delete.
 
 Example:
     %[1]s todos delete --message '{
-      "id": 6260271188334003618
+      "id": 11495435370355398098
    }'
 `, os.Args[0])
 }

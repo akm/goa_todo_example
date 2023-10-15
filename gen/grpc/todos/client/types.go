@@ -90,12 +90,11 @@ func NewCreateResult(message *todospb.CreateResponse) *todosviews.TodoView {
 
 // NewProtoUpdateRequest builds the gRPC request type from the payload of the
 // "update" endpoint of the "todos" service.
-func NewProtoUpdateRequest(payload *todos.UpdatePayload) *todospb.UpdateRequest {
+func NewProtoUpdateRequest(payload *todos.TodoUpdatePayload) *todospb.UpdateRequest {
 	message := &todospb.UpdateRequest{
-		Id: payload.ID,
-	}
-	if payload.Body != nil {
-		message.Body = svcTodosTodoUpdatePayloadToTodospbTodoUpdatePayload(payload.Body)
+		Id:    payload.ID,
+		Title: payload.Title,
+		State: payload.State,
 	}
 	return message
 }
@@ -209,27 +208,4 @@ func ValidateDeleteResponse(message *todospb.DeleteResponse) (err error) {
 	err = goa.MergeErrors(err, goa.ValidateFormat("message.created_at", message.CreatedAt, goa.FormatDateTime))
 	err = goa.MergeErrors(err, goa.ValidateFormat("message.updated_at", message.UpdatedAt, goa.FormatDateTime))
 	return
-}
-
-// protobufTodospbTodoUpdatePayloadToTodosTodoUpdatePayload builds a value of
-// type *todos.TodoUpdatePayload from a value of type
-// *todospb.TodoUpdatePayload.
-func protobufTodospbTodoUpdatePayloadToTodosTodoUpdatePayload(v *todospb.TodoUpdatePayload) *todos.TodoUpdatePayload {
-	res := &todos.TodoUpdatePayload{
-		Title: v.Title,
-		State: v.State,
-	}
-
-	return res
-}
-
-// svcTodosTodoUpdatePayloadToTodospbTodoUpdatePayload builds a value of type
-// *todospb.TodoUpdatePayload from a value of type *todos.TodoUpdatePayload.
-func svcTodosTodoUpdatePayloadToTodospbTodoUpdatePayload(v *todos.TodoUpdatePayload) *todospb.TodoUpdatePayload {
-	res := &todospb.TodoUpdatePayload{
-		Title: v.Title,
-		State: v.State,
-	}
-
-	return res
 }

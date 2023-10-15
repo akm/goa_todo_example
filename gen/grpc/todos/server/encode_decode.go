@@ -124,7 +124,7 @@ func DecodeUpdateRequest(ctx context.Context, v any, md metadata.MD) (any, error
 			return nil, err
 		}
 	}
-	var payload *todos.UpdatePayload
+	var payload *todos.TodoUpdatePayload
 	{
 		payload = NewUpdatePayload(message)
 	}

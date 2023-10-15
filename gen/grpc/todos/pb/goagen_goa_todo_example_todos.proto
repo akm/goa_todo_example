@@ -95,10 +95,6 @@ message CreateResponse {
 message UpdateRequest {
 	// ID
 	uint64 id = 1;
-	TodoUpdatePayload body = 2;
-}
-
-message TodoUpdatePayload {
 	// Title
 	string title = 2;
 	// State

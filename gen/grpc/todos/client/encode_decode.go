@@ -154,9 +154,9 @@ func BuildUpdateFunc(grpccli todospb.TodosClient, cliopts ...grpc.CallOption) go
 
 // EncodeUpdateRequest encodes requests sent to todos update endpoint.
 func EncodeUpdateRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
-	payload, ok := v.(*todos.UpdatePayload)
+	payload, ok := v.(*todos.TodoUpdatePayload)
 	if !ok {
-		return nil, goagrpc.ErrInvalidType("todos", "update", "*todos.UpdatePayload", v)
+		return nil, goagrpc.ErrInvalidType("todos", "update", "*todos.TodoUpdatePayload", v)
 	}
 	return NewProtoUpdateRequest(payload), nil
 }
