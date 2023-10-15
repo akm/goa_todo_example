@@ -1,0 +1,338 @@
+openapi: 3.0.3
+info:
+    title: TODO API
+    description: TODO API
+    version: "0.1"
+servers:
+    - url: http://localhost:8000
+paths:
+    /api/todos:
+        get:
+            tags:
+                - todos
+            summary: list todos
+            operationId: todos#list
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TodoList'
+                            example:
+                                items:
+                                    - State: closed
+                                      created_at: 2006-01-02T15:04:05Z07:00
+                                      id: 8222634127514180254
+                                      title: Quia qui eum quisquam praesentium harum.
+                                      updated_at: 2006-01-02T15:04:05Z07:00
+                                    - State: closed
+                                      created_at: 2006-01-02T15:04:05Z07:00
+                                      id: 8222634127514180254
+                                      title: Quia qui eum quisquam praesentium harum.
+                                      updated_at: 2006-01-02T15:04:05Z07:00
+                                    - State: closed
+                                      created_at: 2006-01-02T15:04:05Z07:00
+                                      id: 8222634127514180254
+                                      title: Quia qui eum quisquam praesentium harum.
+                                      updated_at: 2006-01-02T15:04:05Z07:00
+                                    - State: closed
+                                      created_at: 2006-01-02T15:04:05Z07:00
+                                      id: 8222634127514180254
+                                      title: Quia qui eum quisquam praesentium harum.
+                                      updated_at: 2006-01-02T15:04:05Z07:00
+                                offset: 0
+                                total: 160
+        post:
+            tags:
+                - todos
+            summary: create todos
+            operationId: todos#create
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequestBody'
+                        example:
+                            State: open
+                            title: Nesciunt itaque ratione quis id et blanditiis.
+            responses:
+                "201":
+                    description: Created response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Todo'
+                            example:
+                                State: open
+                                created_at: 2006-01-02T15:04:05Z07:00
+                                id: 3120234314065792372
+                                title: Enim voluptatem at debitis.
+                                updated_at: 2006-01-02T15:04:05Z07:00
+    /api/todos/{id}:
+        delete:
+            tags:
+                - todos
+            summary: delete todos
+            operationId: todos#delete
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  schema:
+                    type: integer
+                    description: ID
+                    example: 14067667759533659596
+                  example: 13503808218220058289
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Todo'
+                            example:
+                                State: open
+                                created_at: 2006-01-02T15:04:05Z07:00
+                                id: 16653377485086596615
+                                title: Nesciunt maxime.
+                                updated_at: 2006-01-02T15:04:05Z07:00
+        get:
+            tags:
+                - todos
+            summary: show todos
+            operationId: todos#show
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  schema:
+                    type: integer
+                    description: ID
+                    example: 15804946130534978713
+                  example: 5606879020375075658
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Todo'
+                            example:
+                                State: closed
+                                created_at: 2006-01-02T15:04:05Z07:00
+                                id: 15780526835420822633
+                                title: Ipsa aut veritatis aut at.
+                                updated_at: 2006-01-02T15:04:05Z07:00
+        put:
+            tags:
+                - todos
+            summary: update todos
+            operationId: todos#update
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  schema:
+                    type: integer
+                    description: ID
+                    example: 12815305522215498353
+                  example: 9503503472711069725
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequestBody'
+                        example:
+                            body:
+                                State: closed
+                                title: Accusamus tempora dolores facere nulla.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Todo'
+                            example:
+                                State: open
+                                created_at: 2006-01-02T15:04:05Z07:00
+                                id: 2127080268794888675
+                                title: Excepturi quidem saepe.
+                                updated_at: 2006-01-02T15:04:05Z07:00
+components:
+    schemas:
+        CreateRequestBody:
+            type: object
+            properties:
+                State:
+                    type: string
+                    description: State
+                    example: closed
+                    enum:
+                        - open
+                        - closed
+                title:
+                    type: string
+                    description: Title
+                    example: Nulla libero nesciunt et inventore et voluptatibus.
+            example:
+                State: closed
+                title: Aut aliquid et.
+            required:
+                - title
+                - State
+        Todo:
+            type: object
+            properties:
+                State:
+                    type: string
+                    description: State
+                    example: open
+                    enum:
+                        - open
+                        - closed
+                created_at:
+                    type: string
+                    description: CreatedAt
+                    example: 2006-01-02T15:04:05Z07:00
+                    format: date-time
+                id:
+                    type: integer
+                    description: ID
+                    example: 3408566998653945846
+                title:
+                    type: string
+                    description: Title
+                    example: Sunt placeat.
+                updated_at:
+                    type: string
+                    description: UpdatedAt
+                    example: 2006-01-02T15:04:05Z07:00
+                    format: date-time
+            example:
+                State: closed
+                created_at: 2006-01-02T15:04:05Z07:00
+                id: 6484352486573131805
+                title: Et facilis voluptatem consequatur provident qui voluptatem.
+                updated_at: 2006-01-02T15:04:05Z07:00
+            required:
+                - id
+                - title
+                - State
+                - created_at
+                - updated_at
+        TodoList:
+            type: object
+            properties:
+                items:
+                    $ref: '#/components/schemas/TodoListItemCollection'
+                offset:
+                    type: integer
+                    description: Offset
+                    example: 0
+                total:
+                    type: integer
+                    description: Total number of items
+                    example: 160
+            example:
+                items:
+                    - State: closed
+                      created_at: 2006-01-02T15:04:05Z07:00
+                      id: 8222634127514180254
+                      title: Quia qui eum quisquam praesentium harum.
+                      updated_at: 2006-01-02T15:04:05Z07:00
+                    - State: closed
+                      created_at: 2006-01-02T15:04:05Z07:00
+                      id: 8222634127514180254
+                      title: Quia qui eum quisquam praesentium harum.
+                      updated_at: 2006-01-02T15:04:05Z07:00
+                    - State: closed
+                      created_at: 2006-01-02T15:04:05Z07:00
+                      id: 8222634127514180254
+                      title: Quia qui eum quisquam praesentium harum.
+                      updated_at: 2006-01-02T15:04:05Z07:00
+                    - State: closed
+                      created_at: 2006-01-02T15:04:05Z07:00
+                      id: 8222634127514180254
+                      title: Quia qui eum quisquam praesentium harum.
+                      updated_at: 2006-01-02T15:04:05Z07:00
+                offset: 0
+                total: 160
+            required:
+                - items
+                - total
+                - offset
+        TodoListItem:
+            type: object
+            properties:
+                State:
+                    type: string
+                    description: State
+                    example: closed
+                    enum:
+                        - open
+                        - closed
+                created_at:
+                    type: string
+                    description: CreatedAt
+                    example: 2006-01-02T15:04:05Z07:00
+                    format: date-time
+                id:
+                    type: integer
+                    description: ID
+                    example: 11091757315971090069
+                title:
+                    type: string
+                    description: Title
+                    example: Ad quo.
+                updated_at:
+                    type: string
+                    description: UpdatedAt
+                    example: 2006-01-02T15:04:05Z07:00
+                    format: date-time
+            example:
+                State: open
+                created_at: 2006-01-02T15:04:05Z07:00
+                id: 13294060456137234016
+                title: Maxime dolor praesentium omnis voluptatem.
+                updated_at: 2006-01-02T15:04:05Z07:00
+            required:
+                - id
+                - title
+                - State
+                - created_at
+                - updated_at
+        TodoListItemCollection:
+            type: array
+            items:
+                $ref: '#/components/schemas/TodoListItem'
+            example:
+                - State: closed
+                  created_at: 2006-01-02T15:04:05Z07:00
+                  id: 8222634127514180254
+                  title: Quia qui eum quisquam praesentium harum.
+                  updated_at: 2006-01-02T15:04:05Z07:00
+                - State: closed
+                  created_at: 2006-01-02T15:04:05Z07:00
+                  id: 8222634127514180254
+                  title: Quia qui eum quisquam praesentium harum.
+                  updated_at: 2006-01-02T15:04:05Z07:00
+        UpdateRequestBody:
+            type: object
+            properties:
+                body:
+                    $ref: '#/components/schemas/CreateRequestBody'
+            example:
+                body:
+                    State: closed
+                    title: Accusamus tempora dolores facere nulla.
+            required:
+                - body
+tags:
+    - name: todos

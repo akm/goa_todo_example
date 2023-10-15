@@ -1,0 +1,137 @@
+// Code generated with goa v3.13.2, DO NOT EDIT.
+//
+// todos protocol buffer definition
+//
+// Command:
+// $ goa gen github.com/akm/goa_todo_example/design
+
+syntax = "proto3";
+
+package todos;
+
+option go_package = "/todospb";
+
+// Service is the todos service interface.
+service Todos {
+	// List implements list.
+	rpc List (ListRequest) returns (ListResponse);
+	// Show implements show.
+	rpc Show (ShowRequest) returns (ShowResponse);
+	// Create implements create.
+	rpc Create (CreateRequest) returns (CreateResponse);
+	// Update implements update.
+	rpc Update (UpdateRequest) returns (UpdateResponse);
+	// Delete implements delete.
+	rpc Delete (DeleteRequest) returns (DeleteResponse);
+}
+
+message ListRequest {
+}
+
+message ListResponse {
+	// Items
+	TodoListItemCollection items = 1;
+	// Total number of items
+	uint64 total = 2;
+	// Offset
+	uint64 offset = 3;
+}
+
+message TodoListItemCollection {
+	repeated TodoListItem field = 1;
+}
+
+message TodoListItem {
+	// ID
+	uint64 id = 1;
+	// Title
+	string title = 2;
+	// State
+	string state = 3;
+	// CreatedAt
+	string created_at = 4;
+	// UpdatedAt
+	string updated_at = 5;
+}
+
+message ShowRequest {
+	// ID
+	uint64 id = 1;
+}
+
+message ShowResponse {
+	// ID
+	uint64 id = 1;
+	// Title
+	string title = 2;
+	// State
+	string state = 3;
+	// CreatedAt
+	string created_at = 4;
+	// UpdatedAt
+	string updated_at = 5;
+}
+
+message CreateRequest {
+	// Title
+	string title = 2;
+	// State
+	string state = 3;
+}
+
+message CreateResponse {
+	// ID
+	uint64 id = 1;
+	// Title
+	string title = 2;
+	// State
+	string state = 3;
+	// CreatedAt
+	string created_at = 4;
+	// UpdatedAt
+	string updated_at = 5;
+}
+
+message UpdateRequest {
+	// ID
+	uint64 id = 1;
+	TodoUpdatePayload body = 2;
+}
+
+message TodoUpdatePayload {
+	// Title
+	string title = 2;
+	// State
+	string state = 3;
+}
+
+message UpdateResponse {
+	// ID
+	uint64 id = 1;
+	// Title
+	string title = 2;
+	// State
+	string state = 3;
+	// CreatedAt
+	string created_at = 4;
+	// UpdatedAt
+	string updated_at = 5;
+}
+
+message DeleteRequest {
+	// ID
+	uint64 id = 1;
+}
+
+message DeleteResponse {
+	// ID
+	uint64 id = 1;
+	// Title
+	string title = 2;
+	// State
+	string state = 3;
+	// CreatedAt
+	string created_at = 4;
+	// UpdatedAt
+	string updated_at = 5;
+}
