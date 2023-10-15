@@ -111,3 +111,33 @@ Content-Length: 161
 
 {"items":[{"id":2,"title":"go to shops","State":"open","created_at":"2023-10-15T17:30:32+09:00","updated_at":"2023-10-15T17:30:32+09:00"}],"total":1,"offset":0}
 ```
+
+
+
+## gRPC API call
+
+```
+$ go run ./cmd/apisvr-cli -url grpc://localhost:8080 todos list
+{
+    "Items": [
+        {
+            "ID": 2,
+            "Title": "go to shops",
+            "State": "open",
+            "CreatedAt": "2023-10-15T17:30:32+09:00",
+            "UpdatedAt": "2023-10-15T17:30:32+09:00"
+        },
+        {
+            "ID": 3,
+            "Title": "pay",
+            "State": "open",
+            "CreatedAt": "2023-10-15T17:44:07+09:00",
+            "UpdatedAt": "2023-10-15T17:44:07+09:00"
+        }
+    ],
+    "Total": 2,
+    "Offset": 0
+}
+```
+
+Run `go run ./cmd/apisvr-cli --help` for more detail.
