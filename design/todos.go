@@ -58,14 +58,13 @@ var _ = Service("todos", func() {
 		Path("/api/todos")
 	})
 
-	GRPC(func() {
-	})
-
 	Method("list", func() {
 		Result(TodoListRT)
 		HTTP(func() {
 			GET("")
 			Response(StatusOK)
+		})
+		GRPC(func() {
 		})
 	})
 
@@ -77,6 +76,8 @@ var _ = Service("todos", func() {
 			GET("/{id}")
 			Response(StatusOK)
 		})
+		GRPC(func() {
+		})
 	})
 
 	Method("create", func() {
@@ -86,6 +87,8 @@ var _ = Service("todos", func() {
 		HTTP(func() {
 			POST("")
 			Response(StatusCreated)
+		})
+		GRPC(func() {
 		})
 	})
 
@@ -102,6 +105,8 @@ var _ = Service("todos", func() {
 			PUT("/{id}")
 			Response(StatusOK)
 		})
+		GRPC(func() {
+		})
 	})
 
 	Method("delete", func() {
@@ -111,6 +116,8 @@ var _ = Service("todos", func() {
 		HTTP(func() {
 			DELETE("/{id}")
 			Response(StatusOK)
+		})
+		GRPC(func() {
 		})
 	})
 })
