@@ -130,12 +130,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 13511584583745042765
+                example: 6751466171351667289
                 format: int64
             title:
                 type: string
                 description: Title
-                example: Ea inventore ut.
+                example: Beatae inventore corporis sunt enim.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -145,8 +145,8 @@ definitions:
         example:
             State: open
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 17653880161119713377
-            title: Et laudantium aut culpa vel magnam vitae.
+            id: 16948042212736546896
+            title: Iure quam veritatis qui.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -185,10 +185,10 @@ definitions:
             title:
                 type: string
                 description: Title
-                example: Iusto animi laborum.
+                example: Quo repellat eveniet rerum mollitia adipisci.
         example:
-            State: closed
-            title: Eius quia eveniet.
+            State: open
+            title: Dolorum et ut vel tempore natus.
         required:
             - title
             - State
@@ -206,57 +206,14 @@ definitions:
             title:
                 type: string
                 description: Title
-                example: Sunt enim.
+                example: Delectus voluptate aut quia aut.
         example:
             State: closed
-            title: Dignissimos iure quam veritatis qui consectetur voluptatem.
+            title: Ut occaecati omnis aut omnis exercitationem vitae.
         required:
             - title
             - State
     TodosCreateResponseBody:
-        title: 'Mediatype identifier: application/vnd.todo; view=default'
-        type: object
-        properties:
-            State:
-                type: string
-                description: State
-                example: closed
-                enum:
-                    - open
-                    - closed
-            created_at:
-                type: string
-                description: CreatedAt
-                example: 2006-01-02T15:04:05Z07:00
-                format: date-time
-            id:
-                type: integer
-                description: ID
-                example: 6260271188334003618
-                format: int64
-            title:
-                type: string
-                description: Title
-                example: Libero molestiae laborum corrupti.
-            updated_at:
-                type: string
-                description: UpdatedAt
-                example: 2006-01-02T15:04:05Z07:00
-                format: date-time
-        description: CreateResponseBody result type (default view)
-        example:
-            State: open
-            created_at: 2006-01-02T15:04:05Z07:00
-            id: 10145663411078434734
-            title: Sapiente eaque similique beatae.
-            updated_at: 2006-01-02T15:04:05Z07:00
-        required:
-            - id
-            - title
-            - State
-            - created_at
-            - updated_at
-    TodosDeleteResponseBody:
         title: 'Mediatype identifier: application/vnd.todo; view=default'
         type: object
         properties:
@@ -275,12 +232,55 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 10202224922958857668
+                example: 13211559989281339706
                 format: int64
             title:
                 type: string
                 description: Title
-                example: Itaque enim nihil omnis delectus voluptate.
+                example: Nihil iusto animi laborum et.
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+        description: CreateResponseBody result type (default view)
+        example:
+            State: open
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 1034661193391117370
+            title: Eveniet nihil rerum temporibus itaque enim.
+            updated_at: 2006-01-02T15:04:05Z07:00
+        required:
+            - id
+            - title
+            - State
+            - created_at
+            - updated_at
+    TodosDeleteResponseBody:
+        title: 'Mediatype identifier: application/vnd.todo; view=default'
+        type: object
+        properties:
+            State:
+                type: string
+                description: State
+                example: closed
+                enum:
+                    - open
+                    - closed
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 434518069684493603
+                format: int64
+            title:
+                type: string
+                description: Title
+                example: Natus rerum illum soluta recusandae non.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -288,10 +288,10 @@ definitions:
                 format: date-time
         description: DeleteResponseBody result type (default view)
         example:
-            State: open
+            State: closed
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 3417363108046843225
-            title: Nisi quam ut occaecati.
+            id: 17866265559692861634
+            title: Ut corporis velit dolores rem.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -341,7 +341,7 @@ definitions:
             State:
                 type: string
                 description: State
-                example: open
+                example: closed
                 enum:
                     - open
                     - closed
@@ -353,12 +353,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 15823518705407672201
+                example: 14674635310014248125
                 format: int64
             title:
                 type: string
                 description: Title
-                example: Deserunt earum.
+                example: Molestias quia dolores cum porro deleniti.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -366,10 +366,10 @@ definitions:
                 format: date-time
         description: ShowResponseBody result type (default view)
         example:
-            State: open
+            State: closed
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 8798631653945139050
-            title: A cum vero aut perspiciatis.
+            id: 5115847474143813608
+            title: Non consequatur.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -396,7 +396,7 @@ definitions:
             State:
                 type: string
                 description: State
-                example: open
+                example: closed
                 enum:
                     - open
                     - closed
@@ -408,12 +408,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 17141604616198814061
+                example: 743605539735315599
                 format: int64
             title:
                 type: string
                 description: Title
-                example: Quia dolores.
+                example: Sequi totam libero est.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -421,10 +421,10 @@ definitions:
                 format: date-time
         description: UpdateResponseBody result type (default view)
         example:
-            State: open
+            State: closed
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 4854010437887977816
-            title: Minus quibusdam sint non consequatur et exercitationem.
+            id: 11628583658559810065
+            title: Id doloremque non.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id

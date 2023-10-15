@@ -6,3 +6,230 @@
 // $ goa gen github.com/akm/goa_todo_example/design
 
 package client
+
+import (
+	todospb "github.com/akm/goa_todo_example/gen/grpc/todos/pb"
+	todos "github.com/akm/goa_todo_example/gen/todos"
+	todosviews "github.com/akm/goa_todo_example/gen/todos/views"
+	goa "goa.design/goa/v3/pkg"
+)
+
+// NewProtoListRequest builds the gRPC request type from the payload of the
+// "list" endpoint of the "todos" service.
+func NewProtoListRequest() *todospb.ListRequest {
+	message := &todospb.ListRequest{}
+	return message
+}
+
+// NewListResult builds the result type of the "list" endpoint of the "todos"
+// service from the gRPC response type.
+func NewListResult(message *todospb.ListResponse) *todosviews.TodoListView {
+	result := &todosviews.TodoListView{
+		Total:  &message.Total,
+		Offset: &message.Offset,
+	}
+	if message.Items != nil {
+		result.Items = make([]*todosviews.TodoListItemView, len(message.Items.Field))
+		for i, val := range message.Items.Field {
+			result.Items[i] = &todosviews.TodoListItemView{
+				ID:        &val.Id,
+				Title:     &val.Title,
+				State:     &val.State,
+				CreatedAt: &val.CreatedAt,
+				UpdatedAt: &val.UpdatedAt,
+			}
+		}
+	}
+	return result
+}
+
+// NewProtoShowRequest builds the gRPC request type from the payload of the
+// "show" endpoint of the "todos" service.
+func NewProtoShowRequest(payload *todos.ShowPayload) *todospb.ShowRequest {
+	message := &todospb.ShowRequest{
+		Id: payload.ID,
+	}
+	return message
+}
+
+// NewShowResult builds the result type of the "show" endpoint of the "todos"
+// service from the gRPC response type.
+func NewShowResult(message *todospb.ShowResponse) *todosviews.TodoView {
+	result := &todosviews.TodoView{
+		ID:        &message.Id,
+		Title:     &message.Title,
+		State:     &message.State,
+		CreatedAt: &message.CreatedAt,
+		UpdatedAt: &message.UpdatedAt,
+	}
+	return result
+}
+
+// NewProtoCreateRequest builds the gRPC request type from the payload of the
+// "create" endpoint of the "todos" service.
+func NewProtoCreateRequest(payload *todos.TodoCreatePayload) *todospb.CreateRequest {
+	message := &todospb.CreateRequest{
+		Title: payload.Title,
+		State: payload.State,
+	}
+	return message
+}
+
+// NewCreateResult builds the result type of the "create" endpoint of the
+// "todos" service from the gRPC response type.
+func NewCreateResult(message *todospb.CreateResponse) *todosviews.TodoView {
+	result := &todosviews.TodoView{
+		ID:        &message.Id,
+		Title:     &message.Title,
+		State:     &message.State,
+		CreatedAt: &message.CreatedAt,
+		UpdatedAt: &message.UpdatedAt,
+	}
+	return result
+}
+
+// NewProtoUpdateRequest builds the gRPC request type from the payload of the
+// "update" endpoint of the "todos" service.
+func NewProtoUpdateRequest(payload *todos.UpdatePayload) *todospb.UpdateRequest {
+	message := &todospb.UpdateRequest{
+		Id: payload.ID,
+	}
+	if payload.Body != nil {
+		message.Body = svcTodosTodoUpdatePayloadToTodospbTodoUpdatePayload(payload.Body)
+	}
+	return message
+}
+
+// NewUpdateResult builds the result type of the "update" endpoint of the
+// "todos" service from the gRPC response type.
+func NewUpdateResult(message *todospb.UpdateResponse) *todosviews.TodoView {
+	result := &todosviews.TodoView{
+		ID:        &message.Id,
+		Title:     &message.Title,
+		State:     &message.State,
+		CreatedAt: &message.CreatedAt,
+		UpdatedAt: &message.UpdatedAt,
+	}
+	return result
+}
+
+// NewProtoDeleteRequest builds the gRPC request type from the payload of the
+// "delete" endpoint of the "todos" service.
+func NewProtoDeleteRequest(payload *todos.DeletePayload) *todospb.DeleteRequest {
+	message := &todospb.DeleteRequest{
+		Id: payload.ID,
+	}
+	return message
+}
+
+// NewDeleteResult builds the result type of the "delete" endpoint of the
+// "todos" service from the gRPC response type.
+func NewDeleteResult(message *todospb.DeleteResponse) *todosviews.TodoView {
+	result := &todosviews.TodoView{
+		ID:        &message.Id,
+		Title:     &message.Title,
+		State:     &message.State,
+		CreatedAt: &message.CreatedAt,
+		UpdatedAt: &message.UpdatedAt,
+	}
+	return result
+}
+
+// ValidateListResponse runs the validations defined on ListResponse.
+func ValidateListResponse(message *todospb.ListResponse) (err error) {
+	if message.Items == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("items", "message"))
+	}
+	if message.Items != nil {
+		if err2 := ValidateTodoListItemCollection(message.Items); err2 != nil {
+			err = goa.MergeErrors(err, err2)
+		}
+	}
+	return
+}
+
+// ValidateTodoListItemCollection runs the validations defined on
+// TodoListItemCollection.
+func ValidateTodoListItemCollection(items *todospb.TodoListItemCollection) (err error) {
+	for _, e := range items.Field {
+		if e != nil {
+			if err2 := ValidateTodoListItem(e); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// ValidateTodoListItem runs the validations defined on TodoListItem.
+func ValidateTodoListItem(elem *todospb.TodoListItem) (err error) {
+	if !(elem.State == "open" || elem.State == "closed") {
+		err = goa.MergeErrors(err, goa.InvalidEnumValueError("elem.State", elem.State, []any{"open", "closed"}))
+	}
+	err = goa.MergeErrors(err, goa.ValidateFormat("elem.created_at", elem.CreatedAt, goa.FormatDateTime))
+	err = goa.MergeErrors(err, goa.ValidateFormat("elem.updated_at", elem.UpdatedAt, goa.FormatDateTime))
+	return
+}
+
+// ValidateShowResponse runs the validations defined on ShowResponse.
+func ValidateShowResponse(message *todospb.ShowResponse) (err error) {
+	if !(message.State == "open" || message.State == "closed") {
+		err = goa.MergeErrors(err, goa.InvalidEnumValueError("message.State", message.State, []any{"open", "closed"}))
+	}
+	err = goa.MergeErrors(err, goa.ValidateFormat("message.created_at", message.CreatedAt, goa.FormatDateTime))
+	err = goa.MergeErrors(err, goa.ValidateFormat("message.updated_at", message.UpdatedAt, goa.FormatDateTime))
+	return
+}
+
+// ValidateCreateResponse runs the validations defined on CreateResponse.
+func ValidateCreateResponse(message *todospb.CreateResponse) (err error) {
+	if !(message.State == "open" || message.State == "closed") {
+		err = goa.MergeErrors(err, goa.InvalidEnumValueError("message.State", message.State, []any{"open", "closed"}))
+	}
+	err = goa.MergeErrors(err, goa.ValidateFormat("message.created_at", message.CreatedAt, goa.FormatDateTime))
+	err = goa.MergeErrors(err, goa.ValidateFormat("message.updated_at", message.UpdatedAt, goa.FormatDateTime))
+	return
+}
+
+// ValidateUpdateResponse runs the validations defined on UpdateResponse.
+func ValidateUpdateResponse(message *todospb.UpdateResponse) (err error) {
+	if !(message.State == "open" || message.State == "closed") {
+		err = goa.MergeErrors(err, goa.InvalidEnumValueError("message.State", message.State, []any{"open", "closed"}))
+	}
+	err = goa.MergeErrors(err, goa.ValidateFormat("message.created_at", message.CreatedAt, goa.FormatDateTime))
+	err = goa.MergeErrors(err, goa.ValidateFormat("message.updated_at", message.UpdatedAt, goa.FormatDateTime))
+	return
+}
+
+// ValidateDeleteResponse runs the validations defined on DeleteResponse.
+func ValidateDeleteResponse(message *todospb.DeleteResponse) (err error) {
+	if !(message.State == "open" || message.State == "closed") {
+		err = goa.MergeErrors(err, goa.InvalidEnumValueError("message.State", message.State, []any{"open", "closed"}))
+	}
+	err = goa.MergeErrors(err, goa.ValidateFormat("message.created_at", message.CreatedAt, goa.FormatDateTime))
+	err = goa.MergeErrors(err, goa.ValidateFormat("message.updated_at", message.UpdatedAt, goa.FormatDateTime))
+	return
+}
+
+// protobufTodospbTodoUpdatePayloadToTodosTodoUpdatePayload builds a value of
+// type *todos.TodoUpdatePayload from a value of type
+// *todospb.TodoUpdatePayload.
+func protobufTodospbTodoUpdatePayloadToTodosTodoUpdatePayload(v *todospb.TodoUpdatePayload) *todos.TodoUpdatePayload {
+	res := &todos.TodoUpdatePayload{
+		Title: v.Title,
+		State: v.State,
+	}
+
+	return res
+}
+
+// svcTodosTodoUpdatePayloadToTodospbTodoUpdatePayload builds a value of type
+// *todospb.TodoUpdatePayload from a value of type *todos.TodoUpdatePayload.
+func svcTodosTodoUpdatePayloadToTodospbTodoUpdatePayload(v *todos.TodoUpdatePayload) *todospb.TodoUpdatePayload {
+	res := &todospb.TodoUpdatePayload{
+		Title: v.Title,
+		State: v.State,
+	}
+
+	return res
+}

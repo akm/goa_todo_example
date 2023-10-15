@@ -6,3 +6,220 @@
 // $ goa gen github.com/akm/goa_todo_example/design
 
 package client
+
+import (
+	"context"
+
+	todospb "github.com/akm/goa_todo_example/gen/grpc/todos/pb"
+	todos "github.com/akm/goa_todo_example/gen/todos"
+	todosviews "github.com/akm/goa_todo_example/gen/todos/views"
+	goagrpc "goa.design/goa/v3/grpc"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
+)
+
+// BuildListFunc builds the remote method to invoke for "todos" service "list"
+// endpoint.
+func BuildListFunc(grpccli todospb.TodosClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
+	return func(ctx context.Context, reqpb any, opts ...grpc.CallOption) (any, error) {
+		for _, opt := range cliopts {
+			opts = append(opts, opt)
+		}
+		if reqpb != nil {
+			return grpccli.List(ctx, reqpb.(*todospb.ListRequest), opts...)
+		}
+		return grpccli.List(ctx, &todospb.ListRequest{}, opts...)
+	}
+}
+
+// DecodeListResponse decodes responses from the todos list endpoint.
+func DecodeListResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
+	var view string
+	{
+		if vals := hdr.Get("goa-view"); len(vals) > 0 {
+			view = vals[0]
+		}
+	}
+	message, ok := v.(*todospb.ListResponse)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("todos", "list", "*todospb.ListResponse", v)
+	}
+	res := NewListResult(message)
+	vres := &todosviews.TodoList{Projected: res, View: view}
+	if err := todosviews.ValidateTodoList(vres); err != nil {
+		return nil, err
+	}
+	return todos.NewTodoList(vres), nil
+}
+
+// BuildShowFunc builds the remote method to invoke for "todos" service "show"
+// endpoint.
+func BuildShowFunc(grpccli todospb.TodosClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
+	return func(ctx context.Context, reqpb any, opts ...grpc.CallOption) (any, error) {
+		for _, opt := range cliopts {
+			opts = append(opts, opt)
+		}
+		if reqpb != nil {
+			return grpccli.Show(ctx, reqpb.(*todospb.ShowRequest), opts...)
+		}
+		return grpccli.Show(ctx, &todospb.ShowRequest{}, opts...)
+	}
+}
+
+// EncodeShowRequest encodes requests sent to todos show endpoint.
+func EncodeShowRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
+	payload, ok := v.(*todos.ShowPayload)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("todos", "show", "*todos.ShowPayload", v)
+	}
+	return NewProtoShowRequest(payload), nil
+}
+
+// DecodeShowResponse decodes responses from the todos show endpoint.
+func DecodeShowResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
+	var view string
+	{
+		if vals := hdr.Get("goa-view"); len(vals) > 0 {
+			view = vals[0]
+		}
+	}
+	message, ok := v.(*todospb.ShowResponse)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("todos", "show", "*todospb.ShowResponse", v)
+	}
+	res := NewShowResult(message)
+	vres := &todosviews.Todo{Projected: res, View: view}
+	if err := todosviews.ValidateTodo(vres); err != nil {
+		return nil, err
+	}
+	return todos.NewTodo(vres), nil
+}
+
+// BuildCreateFunc builds the remote method to invoke for "todos" service
+// "create" endpoint.
+func BuildCreateFunc(grpccli todospb.TodosClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
+	return func(ctx context.Context, reqpb any, opts ...grpc.CallOption) (any, error) {
+		for _, opt := range cliopts {
+			opts = append(opts, opt)
+		}
+		if reqpb != nil {
+			return grpccli.Create(ctx, reqpb.(*todospb.CreateRequest), opts...)
+		}
+		return grpccli.Create(ctx, &todospb.CreateRequest{}, opts...)
+	}
+}
+
+// EncodeCreateRequest encodes requests sent to todos create endpoint.
+func EncodeCreateRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
+	payload, ok := v.(*todos.TodoCreatePayload)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("todos", "create", "*todos.TodoCreatePayload", v)
+	}
+	return NewProtoCreateRequest(payload), nil
+}
+
+// DecodeCreateResponse decodes responses from the todos create endpoint.
+func DecodeCreateResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
+	var view string
+	{
+		if vals := hdr.Get("goa-view"); len(vals) > 0 {
+			view = vals[0]
+		}
+	}
+	message, ok := v.(*todospb.CreateResponse)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("todos", "create", "*todospb.CreateResponse", v)
+	}
+	res := NewCreateResult(message)
+	vres := &todosviews.Todo{Projected: res, View: view}
+	if err := todosviews.ValidateTodo(vres); err != nil {
+		return nil, err
+	}
+	return todos.NewTodo(vres), nil
+}
+
+// BuildUpdateFunc builds the remote method to invoke for "todos" service
+// "update" endpoint.
+func BuildUpdateFunc(grpccli todospb.TodosClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
+	return func(ctx context.Context, reqpb any, opts ...grpc.CallOption) (any, error) {
+		for _, opt := range cliopts {
+			opts = append(opts, opt)
+		}
+		if reqpb != nil {
+			return grpccli.Update(ctx, reqpb.(*todospb.UpdateRequest), opts...)
+		}
+		return grpccli.Update(ctx, &todospb.UpdateRequest{}, opts...)
+	}
+}
+
+// EncodeUpdateRequest encodes requests sent to todos update endpoint.
+func EncodeUpdateRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
+	payload, ok := v.(*todos.UpdatePayload)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("todos", "update", "*todos.UpdatePayload", v)
+	}
+	return NewProtoUpdateRequest(payload), nil
+}
+
+// DecodeUpdateResponse decodes responses from the todos update endpoint.
+func DecodeUpdateResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
+	var view string
+	{
+		if vals := hdr.Get("goa-view"); len(vals) > 0 {
+			view = vals[0]
+		}
+	}
+	message, ok := v.(*todospb.UpdateResponse)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("todos", "update", "*todospb.UpdateResponse", v)
+	}
+	res := NewUpdateResult(message)
+	vres := &todosviews.Todo{Projected: res, View: view}
+	if err := todosviews.ValidateTodo(vres); err != nil {
+		return nil, err
+	}
+	return todos.NewTodo(vres), nil
+}
+
+// BuildDeleteFunc builds the remote method to invoke for "todos" service
+// "delete" endpoint.
+func BuildDeleteFunc(grpccli todospb.TodosClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
+	return func(ctx context.Context, reqpb any, opts ...grpc.CallOption) (any, error) {
+		for _, opt := range cliopts {
+			opts = append(opts, opt)
+		}
+		if reqpb != nil {
+			return grpccli.Delete(ctx, reqpb.(*todospb.DeleteRequest), opts...)
+		}
+		return grpccli.Delete(ctx, &todospb.DeleteRequest{}, opts...)
+	}
+}
+
+// EncodeDeleteRequest encodes requests sent to todos delete endpoint.
+func EncodeDeleteRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
+	payload, ok := v.(*todos.DeletePayload)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("todos", "delete", "*todos.DeletePayload", v)
+	}
+	return NewProtoDeleteRequest(payload), nil
+}
+
+// DecodeDeleteResponse decodes responses from the todos delete endpoint.
+func DecodeDeleteResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
+	var view string
+	{
+		if vals := hdr.Get("goa-view"); len(vals) > 0 {
+			view = vals[0]
+		}
+	}
+	message, ok := v.(*todospb.DeleteResponse)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("todos", "delete", "*todospb.DeleteResponse", v)
+	}
+	res := NewDeleteResult(message)
+	vres := &todosviews.Todo{Projected: res, View: view}
+	if err := todosviews.ValidateTodo(vres); err != nil {
+		return nil, err
+	}
+	return todos.NewTodo(vres), nil
+}
