@@ -9,7 +9,7 @@ import (
 func todoFields(dt string, action string) []string {
 	r := []string{}
 
-	if dt == "RT" {
+	if dt == "RT" || action == "update" {
 		r = append(r, field(1, "id", UInt64, "ID"))
 	}
 
@@ -94,12 +94,7 @@ var _ = Service("todos", func() {
 
 	Method("update", func() {
 		Result(TodoRT)
-		Payload(func() {
-			Required(
-				field(1, "id", UInt64, "ID"),
-				field(2, "body", TodoUpdatePayload),
-			)
-		})
+		Payload(TodoUpdatePayload)
 
 		HTTP(func() {
 			PUT("/{id}")
