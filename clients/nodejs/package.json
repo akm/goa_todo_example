@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/akm/goa_todo_example#readme",
   "devDependencies": {
+    "@types/node": "^20.8.6",
     "typescript": "^5.2.2"
   }
 }
