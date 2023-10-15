@@ -141,3 +141,117 @@ $ go run ./cmd/apisvr-cli -url grpc://localhost:8080 todos list
 ```
 
 Run `go run ./cmd/apisvr-cli --help` for more detail.
+
+
+## gRPC API call from node.js client
+
+### list
+
+```
+$ npx ts-node src/todos/list.ts
+{
+  id: 2,
+  title: 'go to shops',
+  state: 'open',
+  createdAt: '2023-10-15T17:30:32+09:00',
+  updatedAt: '2023-10-15T17:30:32+09:00'
+}
+{
+  id: 3,
+  title: 'pay',
+  state: 'open',
+  createdAt: '2023-10-15T17:44:07+09:00',
+  updatedAt: '2023-10-15T17:44:07+09:00'
+}
+```
+
+### show
+
+```
+$ npx ts-node src/todos/show.ts 2 
+{
+  id: 2,
+  title: 'go to shops',
+  state: 'open',
+  createdAt: '2023-10-15T17:30:32+09:00',
+  updatedAt: '2023-10-15T17:30:32+09:00'
+}
+```
+
+### create
+
+```
+$ npx ts-node src/todos/create 'write to the notebook' opened 
+Error: 2 UNKNOWN: value of message.State must be one of "open", "closed" but got value "opened"
+(snip)
+    at Module.load (node:internal/modules/cjs/loader:1091:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:938:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:83:12) {
+  code: 2,
+  details: 'value of message.State must be one of "open", "closed" but got value "opened"',
+  metadata: Metadata {
+    internalRepr: Map(2) {
+      'content-type' => [Array],
+      'grpc-status-details-bin' => [Array]
+    },
+    options: {}
+  }
+}
+```
+
+```
+$ npx ts-node src/todos/create 'write to the notebook' open 
+{
+  id: 4,
+  title: 'write to the notebook',
+  state: 'open',
+  createdAt: '2023-10-15T20:20:44+09:00',
+  updatedAt: '2023-10-15T20:20:44+09:00'
+}
+```
+
+
+### update
+
+```
+$ npx ts-node src/todos/update 4 'write to the notebook' closed 
+{
+  id: 4,
+  title: 'write to the notebook',
+  state: 'closed',
+  createdAt: '2023-10-15T20:20:44+09:00',
+  updatedAt: '2023-10-15T20:21:18+09:00'
+}
+```
+
+### delete
+
+```
+$ npx ts-node src/todos/delete.ts 3
+{
+  id: 3,
+  title: 'pay',
+  state: 'open',
+  createdAt: '2023-10-15T17:44:07+09:00',
+  updatedAt: '2023-10-15T17:44:07+09:00'
+}
+```
+
+
+```
+$ npx ts-node src/todos/list.ts
+{
+  id: 2,
+  title: 'go to shops',
+  state: 'open',
+  createdAt: '2023-10-15T17:30:32+09:00',
+  updatedAt: '2023-10-15T17:30:32+09:00'
+}
+{
+  id: 4,
+  title: 'write to the notebook',
+  state: 'closed',
+  createdAt: '2023-10-15T20:20:44+09:00',
+  updatedAt: '2023-10-15T20:21:18+09:00'
+}
+```
