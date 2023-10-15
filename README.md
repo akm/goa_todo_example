@@ -14,7 +14,7 @@ go run ./cmd/apisvr
 $ curl -i http://localhost:8000/api/todos
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Sun, 15 Oct 2023 08:29:04 GMT
+Date: Sun, 15 Oct 2023 13:14:03 GMT
 Content-Length: 34
 
 {"items":[],"total":0,"offset":0}
@@ -26,54 +26,65 @@ Content-Length: 34
 $ curl -i -X POST http://localhost:8000/api/todos --data-binary '{"title":"make check list", "state": "open"}'
 HTTP/1.1 201 Created
 Content-Type: application/json
-Date: Sun, 15 Oct 2023 08:30:00 GMT
+Date: Sun, 15 Oct 2023 13:14:26 GMT
 Content-Length: 132
 
-{"id":1,"title":"make check list","State":"open","created_at":"2023-10-15T17:30:00+09:00","updated_at":"2023-10-15T17:30:00+09:00"}
+{"id":1,"title":"make check list","State":"open","created_at":"2023-10-15T22:14:26+09:00","updated_at":"2023-10-15T22:14:26+09:00"}
 ```
 
 ```
 $ curl -i -X POST http://localhost:8000/api/todos --data-binary '{"title":"go to shops", "state": "open"}'
 HTTP/1.1 201 Created
 Content-Type: application/json
-Date: Sun, 15 Oct 2023 08:30:32 GMT
+Date: Sun, 15 Oct 2023 13:14:45 GMT
 Content-Length: 128
 
-{"id":2,"title":"go to shops","State":"open","created_at":"2023-10-15T17:30:32+09:00","updated_at":"2023-10-15T17:30:32+09:00"}
+{"id":2,"title":"go to shops","State":"open","created_at":"2023-10-15T22:14:45+09:00","updated_at":"2023-10-15T22:14:45+09:00"}
 ```
+
 
 ### Show
 
 ```
-$ curl -i -X GET http://localhost:8000/api/todos/1                                                            
+$ curl -i -X GET http://localhost:8000/api/todos/1
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Sun, 15 Oct 2023 08:30:59 GMT
+Date: Sun, 15 Oct 2023 13:15:00 GMT
 Content-Length: 132
 
-{"id":1,"title":"make check list","State":"open","created_at":"2023-10-15T17:30:00+09:00","updated_at":"2023-10-15T17:30:00+09:00"}
+{"id":1,"title":"make check list","State":"open","created_at":"2023-10-15T22:14:26+09:00","updated_at":"2023-10-15T22:14:26+09:00"}
 ```
 
 ```
 $ curl -i -X GET http://localhost:8000/api/todos/2
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Sun, 15 Oct 2023 08:31:04 GMT
+Date: Sun, 15 Oct 2023 13:15:16 GMT
 Content-Length: 128
 
-{"id":2,"title":"go to shops","State":"open","created_at":"2023-10-15T17:30:32+09:00","updated_at":"2023-10-15T17:30:32+09:00"}
+{"id":2,"title":"go to shops","State":"open","created_at":"2023-10-15T22:14:45+09:00","updated_at":"2023-10-15T22:14:45+09:00"}
 ```
 
 ### Update
 
 ```
-$ curl -i -X PUT http://localhost:8000/api/todos/1 --data-binary '{"body": {"title":"make check list", "state": "closed"}}'
+$ curl -i -X PUT http://localhost:8000/api/todos/1 --data-binary '{"title":"make check list", "state": "close"}'
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Date: Sun, 15 Oct 2023 13:16:18 GMT
+Content-Length: 186
+
+{"name":"invalid_enum_value","id":"qAsXOeWF","message":"value of body.State must be one of \"open\", \"closed\" but got value \"close\"","temporary":false,"timeout":false,"fault":false}
+```
+
+```
+$ curl -i -X PUT http://localhost:8000/api/todos/1 --data-binary '{"title":"make check list", "state": "closed"}'
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Sun, 15 Oct 2023 08:31:50 GMT
+Date: Sun, 15 Oct 2023 13:16:26 GMT
 Content-Length: 134
 
-{"id":1,"title":"make check list","State":"closed","created_at":"2023-10-15T17:30:00+09:00","updated_at":"2023-10-15T17:31:50+09:00"}
+{"id":1,"title":"make check list","State":"closed","created_at":"2023-10-15T22:14:26+09:00","updated_at":"2023-10-15T22:16:26+09:00"}
 ```
 
 
@@ -83,33 +94,33 @@ Content-Length: 134
 $ curl -i http://localhost:8000/api/todos
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Sun, 15 Oct 2023 08:32:27 GMT
+Date: Sun, 15 Oct 2023 13:16:52 GMT
 Content-Length: 295
 
-{"items":[{"id":1,"title":"make check list","State":"closed","created_at":"2023-10-15T17:30:00+09:00","updated_at":"2023-10-15T17:31:50+09:00"},{"id":2,"title":"go to shops","State":"open","created_at":"2023-10-15T17:30:32+09:00","updated_at":"2023-10-15T17:30:32+09:00"}],"total":2,"offset":0}
+{"items":[{"id":1,"title":"make check list","State":"closed","created_at":"2023-10-15T22:14:26+09:00","updated_at":"2023-10-15T22:16:26+09:00"},{"id":2,"title":"go to shops","State":"open","created_at":"2023-10-15T22:14:45+09:00","updated_at":"2023-10-15T22:14:45+09:00"}],"total":2,"offset":0}
 ```
 
 
 ### Delete
 
 ```
-$ curl -i -X DELETE http://localhost:8000/api/todos/1                                                                   
+$ curl -i -X DELETE http://localhost:8000/api/todos/1
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Sun, 15 Oct 2023 08:32:54 GMT
+Date: Sun, 15 Oct 2023 13:17:12 GMT
 Content-Length: 134
 
-{"id":1,"title":"make check list","State":"closed","created_at":"2023-10-15T17:30:00+09:00","updated_at":"2023-10-15T17:31:50+09:00"}
+{"id":1,"title":"make check list","State":"closed","created_at":"2023-10-15T22:14:26+09:00","updated_at":"2023-10-15T22:16:26+09:00"}
 ```
 
 ```
-$ curl -i http://localhost:8000/api/todos             
+$ curl -i http://localhost:8000/api/todos
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Sun, 15 Oct 2023 08:32:57 GMT
+Date: Sun, 15 Oct 2023 13:17:28 GMT
 Content-Length: 161
 
-{"items":[{"id":2,"title":"go to shops","State":"open","created_at":"2023-10-15T17:30:32+09:00","updated_at":"2023-10-15T17:30:32+09:00"}],"total":1,"offset":0}
+{"items":[{"id":2,"title":"go to shops","State":"open","created_at":"2023-10-15T22:14:45+09:00","updated_at":"2023-10-15T22:14:45+09:00"}],"total":1,"offset":0}
 ```
 
 
@@ -124,19 +135,26 @@ $ go run ./cmd/apisvr-cli -url grpc://localhost:8080 todos list
             "ID": 2,
             "Title": "go to shops",
             "State": "open",
-            "CreatedAt": "2023-10-15T17:30:32+09:00",
-            "UpdatedAt": "2023-10-15T17:30:32+09:00"
-        },
-        {
-            "ID": 3,
-            "Title": "pay",
-            "State": "open",
-            "CreatedAt": "2023-10-15T17:44:07+09:00",
-            "UpdatedAt": "2023-10-15T17:44:07+09:00"
+            "CreatedAt": "2023-10-15T22:14:45+09:00",
+            "UpdatedAt": "2023-10-15T22:14:45+09:00"
         }
     ],
-    "Total": 2,
+    "Total": 1,
     "Offset": 0
+}
+```
+
+```
+$ go run ./cmd/apisvr-cli -url grpc://localhost:8080 todos update --message '{"id":2,"title":"go to shops","state":"close"}' 
+rpc error: code = Unknown desc = value of message.State must be one of "open", "closed" but got value "close"
+exit status 1
+$ go run ./cmd/apisvr-cli -url grpc://localhost:8080 todos update --message '{"id":2,"title":"go to shops","state":"closed"}'
+{
+    "ID": 2,
+    "Title": "go to shops",
+    "State": "closed",
+    "CreatedAt": "2023-10-15T22:14:45+09:00",
+    "UpdatedAt": "2023-10-15T22:20:03+09:00"
 }
 ```
 
