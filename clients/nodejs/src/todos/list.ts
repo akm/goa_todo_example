@@ -21,7 +21,11 @@ const main = async () => {
 
   const { response } = await client.list({});
 
-  console.log(response);
+  const { total, offset } = response;
+  console.log({ total, offset });
+  response.items?.field.forEach((item) => {
+    console.log(item);
+  });
 };
 
 main().then(() => {
