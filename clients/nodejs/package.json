@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "grpc:js:gen": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/protos --grpc_out=grpc_js:./src/protos --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin -I ../../gen/grpc/todos/pb ../../gen/grpc/todos/pb/*.proto",
-    "grpc:ts:gen": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=grpc_js:./src/protos -I ../../gen/grpc/todos/pb ../../gen/grpc/todos/pb/*.proto"
+    "grpc:gen": "protoc --ts_out src/protos --proto_path ../../gen/grpc/todos/pb ../../gen/grpc/todos/pb/goagen_goa_todo_example_todos.proto"
   },
   "repository": {
     "type": "git",
@@ -24,13 +23,13 @@
   },
   "homepage": "https://github.com/akm/goa_todo_example#readme",
   "devDependencies": {
+    "@protobuf-ts/plugin": "^2.9.1",
     "@types/node": "^20.8.6",
-    "grpc_tools_node_protoc_ts": "^5.3.3",
-    "grpc-tools": "^1.12.4",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.9.5"
+    "@grpc/grpc-js": "^1.9.5",
+    "@protobuf-ts/grpc-transport": "^2.9.1"
   }
 }
