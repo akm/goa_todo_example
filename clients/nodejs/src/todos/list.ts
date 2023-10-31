@@ -3,29 +3,27 @@
  *   $ npx ts-node src/todos/list.ts
  */
 
-import { credentials } from "@grpc/grpc-js";
+import { ChannelCredentials } from "@grpc/grpc-js";
+import { GrpcTransport } from "@protobuf-ts/grpc-transport";
 
 import {
   TodosClient,
   ITodosClient,
-} from "../protos/goagen_goa_todo_example_todos_grpc_pb";
-import {
-  ListRequest,
-  ListResponse,
-} from "../protos/goagen_goa_todo_example_todos_pb";
+} from "../protos/goagen_goa_todo_example_todos.client";
 
-const client: ITodosClient = new TodosClient(
-  `localhost:8080`,
-  credentials.createInsecure()
-);
+const main = async () => {
+  const transport = new GrpcTransport({
+    host: "localhost:8080",
+    channelCredentials: ChannelCredentials.createInsecure(),
+  });
 
-const request: ListRequest = new ListRequest();
+  const client: ITodosClient = new TodosClient(transport);
 
-client.list(request, (err: any, response: ListResponse) => {
-  response
-    ?.getItems()
-    ?.getFieldList()
-    .forEach((todo) => {
-      console.log(todo.toObject());
-    });
+  const { response } = await client.list({});
+
+  console.log(response);
+};
+
+main().then(() => {
+  console.log("done");
 });

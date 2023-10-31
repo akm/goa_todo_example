@@ -3,30 +3,32 @@
  *   $ npx ts-node src/todos/show.ts <title> open/closed
  */
 
-import { credentials } from "@grpc/grpc-js";
+import { ChannelCredentials } from "@grpc/grpc-js";
+import { GrpcTransport } from "@protobuf-ts/grpc-transport";
 
 import {
   TodosClient,
   ITodosClient,
-} from "../protos/goagen_goa_todo_example_todos_grpc_pb";
-import {
-  CreateRequest,
-  CreateResponse,
-} from "../protos/goagen_goa_todo_example_todos_pb";
+} from "../protos/goagen_goa_todo_example_todos.client";
 
-const client: ITodosClient = new TodosClient(
-  `localhost:8080`,
-  credentials.createInsecure()
-);
+const main = async () => {
+  const transport = new GrpcTransport({
+    host: "localhost:8080",
+    channelCredentials: ChannelCredentials.createInsecure(),
+  });
 
-const request: CreateRequest = new CreateRequest();
-request.setTitle(process.argv[2]);
-request.setState(process.argv[3]);
+  const client: ITodosClient = new TodosClient(transport);
 
-client.create(request, (err: any, response: CreateResponse) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log(response.toObject());
+  const { response } = await client.create({
+    title: process.argv[2],
+    state: process.argv[3],
+  });
+
+  // const { id, title, state, createdAt, updatedAt } = response;
+  // console.log({ id, title, state, createdAt, updatedAt });
+  console.log(response);
+};
+
+main().then(() => {
+  console.log("done");
 });
