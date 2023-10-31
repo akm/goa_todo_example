@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "grpc:js:gen": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/protos --grpc_out=grpc_js:./src/protos --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin -I ../../gen/grpc/todos/pb ../../gen/grpc/todos/pb/*.proto",
-    "grpc:ts:gen": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=grpc_js:./src/protos -I ../../gen/grpc/todos/pb ../../gen/grpc/todos/pb/*.proto"
+    "grpc:gen": "protoc --ts_out src/protos --proto_path ../../gen/grpc/todos/pb ../../gen/grpc/todos/pb/goagen_goa_todo_example_todos.proto"
   },
   "repository": {
     "type": "git",
