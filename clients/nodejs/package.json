@@ -29,6 +29,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.9.5"
+    "@grpc/grpc-js": "^1.9.5",
+    "@protobuf-ts/grpc-transport": "^2.9.1"
   }
 }
